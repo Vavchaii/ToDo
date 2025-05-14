@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import './Styles/App.css'
+import PostList from './Components/PostList'
+import PostForm from './Components/PostForm'
+import MySelect from './Components/UI/select/MySelect'
 
 function App() {
+  const [posts, setPosts] = useState([
+    { id: 1, title: 'JavaScript', body: 'Description' },
+    { id: 2, title: 'Python', body: 'Description' },
+    { id: 3, title: 'Java', body: 'Description' },
+  ])
+  const [selectedSort, setSelectedSort] = useState('')
+  const createPost = (newPost) => {
+    setPosts([...posts, newPost])
+  }
+
+  const removePost = (post) => {
+    setPosts(posts.filter((p) => p.id !== post.id))
+  }
+
+  const sortPosts = (sort) => {
+    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <PostForm create={createPost} />
+      <hr style={{ margin: '15px 0' }}></hr>
+      <div>
+        <MySelect
+          defaultValue="Сортировка"
+          value={selectedSort}
+          onChange={sortPosts}
+          options={[
+            { value: 'title', name: 'По названию' },
+            { value: 'body', name: 'По описанию' },
+          ]}
+        ></MySelect>
+      </div>
+      {posts.length ? (
+        <PostList remove={removePost} posts={posts} title="Список постов" />
+      ) : (
+        <h1 style={{ textAlign: 'center' }}>Посты не найдены</h1>
+      )}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

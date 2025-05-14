@@ -28,15 +28,7 @@ function App() {
       <PostForm create={createPost} />
       <hr style={{ margin: '15px 0' }}></hr>
       <div>
-        <MySelect
-          defaultValue="Сортировка"
-          value={selectedSort}
-          onChange={sortPosts}
-          options={[
-            { value: 'title', name: 'По названию' },
-            { value: 'body', name: 'По описанию' },
-          ]}
-        ></MySelect>
+        <div>dwadwadawda</div>
       </div>
       {posts.length ? (
         <PostList remove={removePost} posts={posts} title="Список постов" />
